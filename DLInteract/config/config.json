@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/docinteract/DocinteractWebPart.js",
+      "manifest": "./src/webparts/docinteract/DocinteractWebPart.manifest.json",
+      "outputPath": "./dist/docinteract-web-part.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "DocinteractWebPartStrings": "webparts/docinteract/loc/{locale}.js"
+  }
+}

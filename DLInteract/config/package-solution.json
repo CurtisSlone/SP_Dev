@@ -1,0 +1,11 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "dl-interact-client-side-solution",
+    "id": "f7903d19-af12-4556-825f-3f4d64e872d4",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/dl-interact.sppkg"
+  }
+}
