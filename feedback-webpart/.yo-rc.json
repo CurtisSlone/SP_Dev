@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "feedback-webpart",
+    "libraryId": "62a783fd-7930-469f-91d6-d7393119f005",
+    "environment": "spo"
+  }
+}

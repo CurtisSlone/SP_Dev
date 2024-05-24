@@ -1,13 +1,13 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "helloworld-webpart-client-side-solution",
-    "id": "d32ea4f5-bb62-4ad3-b7b9-aa5b64d29419",
+    "name": "Feedback Web Part",
+    "id": "62a783fd-7930-469f-91d6-d7393119f005",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },
   "paths": {
-    "zippedPackage": "solution/helloworld-webpart.sppkg"
+    "zippedPackage": "solution/feedback-webpart.sppkg"
   }
 }
