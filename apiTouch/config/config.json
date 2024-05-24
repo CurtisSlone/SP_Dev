@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "ap-itouch-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/apItouch/ApItouchWebPart.js",
+          "manifest": "./src/webparts/apItouch/ApItouchWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ApItouchWebPartStrings": "lib/webparts/apItouch/loc/{locale}.js"
+  }
+}

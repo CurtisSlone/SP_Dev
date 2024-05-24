@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "api-touch",
+    "libraryId": "ac9e3574-9622-4c37-8884-b3d602d527b6",
+    "environment": "spo"
+  }
+}
