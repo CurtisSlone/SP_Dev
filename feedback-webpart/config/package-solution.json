@@ -5,7 +5,7 @@
     "id": "62a783fd-7930-469f-91d6-d7393119f005",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
-    "skipFeatureDeployment": true
+    "skipFeatureDeployment": false
   },
   "paths": {
     "zippedPackage": "solution/feedback-webpart.sppkg"

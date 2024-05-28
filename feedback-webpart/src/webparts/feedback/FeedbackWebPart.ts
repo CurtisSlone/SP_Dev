@@ -1,4 +1,4 @@
-import {SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse} from '@microsoft/sp-http'
+import {SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse} from '@microsoft/sp-http';
 import { Version, Environment, EnvironmentType } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
