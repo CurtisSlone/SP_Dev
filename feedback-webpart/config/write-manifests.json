@@ -1,8 +1,4 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx-build/write-manifests.schema.json",
-<<<<<<< HEAD
   "cdnBasePath": "https://f4rn6o8xpprtnkaz0jtfllppgc7.sharepoint.com/:f:/s/SharePointfx/EkYCNROSEYBEjnUN4WxVT0wB19MexT0gUVSF524wKdkYOg?e=MbXtMs"
-=======
-  "cdnBasePath": "https://f4rn6o8xpprtnkaz0jtfllppgc7.sharepoint.com/:f:/s/SharePointfx/EkYCNROSEYBEjnUN4WxVT0wB19MexT0gUVSF524wKdkYOg?e=4BZunk"
->>>>>>> f93e8eb3b5b2da4beb74bb0b1021f7f33996cc46
 }
