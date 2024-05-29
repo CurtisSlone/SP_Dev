@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "hello-listitems-client-side-solution",
+    "id": "8dc6a86e-753e-48cd-9391-54be4ced710c",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/hello-listitems.sppkg"
+  }
+}

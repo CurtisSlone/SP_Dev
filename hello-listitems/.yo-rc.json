@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "hello-listitems",
+    "libraryId": "8dc6a86e-753e-48cd-9391-54be4ced710c",
+    "environment": "spo"
+  }
+}

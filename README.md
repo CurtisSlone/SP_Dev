@@ -1,4 +1,4 @@
-# Configuring App Environment
+# Configuring App Environment for on-prem 2019
 
 ## Manage App Catalog
 [Manage Catalog](https://learn.microsoft.com/en-us/sharepoint/administration/manage-the-app-catalog)
@@ -19,3 +19,7 @@ Choose 2016 and up, upgrade @microsoft dependencies to ~1.4.1 in package.json fi
     "@microsoft/sp-webpart-workbench": "~1.4.1"
   }
 
+# Create App Service Management proxy for APPs
+# deploy assets to https://<domain>/_layouts/15
+# add site collection admin
+# Use Copy-Item to deploy src files to sharepoint virtual directory
