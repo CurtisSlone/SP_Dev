@@ -7,13 +7,12 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
   constructor(props: IRecentProductsProps){
     super(props);
     this.state = {
-      documentList: [],
-      docCount: 0
+      documentList: []
     };
   }
 
   private updateDocuments(): void {
-    this.props.documentClient.getDocuments(4);
+    this.props.documentClient.getDocuments(this.props.docCount);
   }
 
   public render(): React.ReactElement<IRecentProductsProps> {
@@ -24,7 +23,7 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
             <div className={ styles.column }>
               <span className={ styles.title }>Welcome to SharePoint!</span>
               <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.numberOfDocs)}</p>
+              <p className={ styles.description }>{escape(this.props.docCount.toString())}</p>
               <a href="https://aka.ms/spfx" className={ styles.button }>
                 <span className={ styles.label }>Learn more</span>
               </a>

@@ -1,7 +1,7 @@
 export interface IDocument {
+    Id: number;
     imgUrl: string;
-    docName: string;
+    Title: string;
     description: string;
     classification: string;
-    docUrl: string;
 }

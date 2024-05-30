@@ -6,7 +6,6 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-
 import * as strings from 'RecentProductsWebPartStrings';
 import RecentProducts from './components/RecentProducts';
 import { IRecentProductsProps } from './components/IRecentProductsProps';
@@ -14,17 +13,17 @@ import DocumentClient from './DocumentClient';
 
 export interface IRecentProductsWebPartProps {
   description: string;
-  numberOfDocs: string;
+  numberOfDocs: number;
 }
 
 export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecentProductsWebPartProps> {
-
+  
   public render(): void {
     const element: React.ReactElement<IRecentProductsProps > = React.createElement(
       RecentProducts,
       {
         description: this.properties.description,
-        numberOfDocs: this.properties.numberOfDocs,
+        docCount: this.properties.numberOfDocs,
         documentClient: new DocumentClient()
       }
     );
