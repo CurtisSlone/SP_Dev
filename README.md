@@ -4,7 +4,9 @@
 [Manage Catalog](https://learn.microsoft.com/en-us/sharepoint/administration/manage-the-app-catalog)
 
 # Generating SharePoint Solutions with Yo
-Choose 2016 and up, upgrade @microsoft dependencies to ~1.4.1 in package.json file
+Choose SPO, 
+
+ @microsoft dependencies should be ~1.4.1 in package.json file
 
  "dependencies": {
     "@microsoft/sp-core-library": "~1.4.1",
@@ -20,6 +22,6 @@ Choose 2016 and up, upgrade @microsoft dependencies to ~1.4.1 in package.json fi
   }
 
 # Create App Service Management proxy for APPs
-# deploy assets to https://<domain>/_layouts/15
+# deploy assets to https://:domain:/_layouts/15
 # add site collection admin
 # Use Copy-Item to deploy src files to sharepoint virtual directory
