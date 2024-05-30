@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "recent-products-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/recentProducts/RecentProductsWebPart.js",
+          "manifest": "./src/webparts/recentProducts/RecentProductsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "RecentProductsWebPartStrings": "lib/webparts/recentProducts/loc/{locale}.js"
+  }
+}
