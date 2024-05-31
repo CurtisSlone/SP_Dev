@@ -14,20 +14,41 @@ import { IDocument } from './IDocument';
 
 export interface IRecentProductsWebPartProps {
   description: string;
-  numberOfDocs: number;
+  numberOfDocs: string;
+  docArr: IDocument[];
 }
-
+ 
 export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecentProductsWebPartProps> {
   
+  private _getDocs(docCount: string): Promise<IDocument[]>{
+
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate&$orderby=publishDate desc&$top=" + docCount;
+
+    return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1)
+      .then(response=>{
+        return response.json();
+      })
+      .then(json=>{
+        return json.value;
+      }) as Promise<IDocument[]>;
+  }
+
+  private _pushDocs(): void {
+    
+    this._getDocs(this.properties.numberOfDocs)
+      .then(docs=>{this.properties.docArr = docs});
+  }
+
   public render(): void {
+    
     const element: React.ReactElement<IRecentProductsProps> = React.createElement(
       RecentProducts,
       {
         description: this.properties.description,
-        docArr: []
+        docArr: this.properties.docArr,
       }
     );
-
+    
     ReactDom.render(element, this.domElement);
   }
 
