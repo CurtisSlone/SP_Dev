@@ -14,7 +14,7 @@ export default class TodoClient {
     public getItems(): Promise<ITodoItem[]> {
         return new Promise<ITodoItem[]>((resolve)=>{
             resolve(this._todoItems);
-        });
+        }); 
     }
 
     public add(NewItemTitle: string, NewItemDone: boolean): Promise<number> {

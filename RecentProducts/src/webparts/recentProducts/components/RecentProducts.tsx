@@ -9,9 +9,6 @@ import DocumentComponent from './DocumentComponent';
 export default class RecentProducts extends React.Component<IRecentProductsProps, {}> {
   constructor(props: IRecentProductsProps){
     super(props);
-    this.state = {
-      documents: this.props.docArr,
-    };
   } 
 
   

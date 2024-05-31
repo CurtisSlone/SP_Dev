@@ -31,7 +31,7 @@ export default class TodoItemComponent extends React.Component<ITodoItemProps,IT
         });
     }
 
-    ptivate itemClicked(e: any, Id: number): void {
+    private itemClicked(e: any, Id: number): void {
         this.setState({showPanel: true});
     }
 

@@ -48,7 +48,7 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
         docArr: this.properties.docArr,
       }
     );
-    
+    this._pushDocs();
     ReactDom.render(element, this.domElement);
   }
 
@@ -68,7 +68,8 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
               groupName: "",
               groupFields: [
                 PropertyPaneTextField('numberOfDocs', {
-                  label: "Number of Recent Products"
+                  label: "Number of Recent Products",
+                  value: "1"
                 })
               ]
             }

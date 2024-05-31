@@ -5,7 +5,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 
 import {ITodoItem } from '../ITodoItem';
 import { IReactTodoState } from './IReactTodoState';
-
+import TodoItemComponent from './TodoItemComponent';
 import { CommandButton, PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
