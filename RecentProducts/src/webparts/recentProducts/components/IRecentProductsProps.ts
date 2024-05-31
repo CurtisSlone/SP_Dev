@@ -1,6 +1,5 @@
-import DocumentClient from "../DocumentClient";
+import { IDocument } from "../IDocument";
 export interface IRecentProductsProps {
   description: string;
-  docCount: number;
-  documentClient: DocumentClient;
+  docArr: IDocument[];
 }

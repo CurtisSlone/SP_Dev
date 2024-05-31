@@ -6,10 +6,11 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
+import { SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse} from '@microsoft/sp-http';
 import * as strings from 'RecentProductsWebPartStrings';
 import RecentProducts from './components/RecentProducts';
 import { IRecentProductsProps } from './components/IRecentProductsProps';
-import DocumentClient from './DocumentClient';
+import { IDocument } from './IDocument';
 
 export interface IRecentProductsWebPartProps {
   description: string;
@@ -19,12 +20,11 @@ export interface IRecentProductsWebPartProps {
 export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecentProductsWebPartProps> {
   
   public render(): void {
-    const element: React.ReactElement<IRecentProductsProps > = React.createElement(
+    const element: React.ReactElement<IRecentProductsProps> = React.createElement(
       RecentProducts,
       {
         description: this.properties.description,
-        docCount: this.properties.numberOfDocs,
-        documentClient: new DocumentClient()
+        docArr: []
       }
     );
 
@@ -55,5 +55,9 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
         }
       ]
     };
+  }
+
+  protected get disableReactivePropertyChanges(): boolean {
+    return true;
   }
 }

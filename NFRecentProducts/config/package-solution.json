@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "nf-recent-products-client-side-solution",
+    "id": "c628cca4-8eb4-4c40-b9af-876c0f0cc46b",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/nf-recent-products.sppkg"
+  }
+}
