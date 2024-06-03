@@ -42,12 +42,12 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
   }
 
   public render(): void {
-    
+    let tmpArr: IDocument[] = this.properties.docArr != null ? this.properties.docArr : [];
     const element: React.ReactElement<IRecentProductsProps> = React.createElement(
       RecentProducts,
       {
         description: this.properties.description,
-        docArr: this.properties.docArr,
+        docArr: tmpArr,
       }
     );
     
@@ -72,8 +72,7 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
               groupName: "",
               groupFields: [
                 PropertyPaneTextField('numberOfDocs', {
-                  label: "Number of Recent Products",
-                  value: "1"
+                  label: "Number of Recent Products"
                 })
               ]
             }
