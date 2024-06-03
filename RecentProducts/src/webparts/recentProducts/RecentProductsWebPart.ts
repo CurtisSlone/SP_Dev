@@ -21,8 +21,11 @@ export interface IRecentProductsWebPartProps {
 export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecentProductsWebPartProps> {
   
   private _getDocs(docCount: string): Promise<IDocument[]>{
-
-    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate&$orderby=publishDate desc&$top=" + docCount;
+    let numOfDocs: string = "1";
+    if( docCount != null)
+      numOfDocs = docCount;
+    alert(numOfDocs);
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate&$orderby=publishDate desc&$top=" + numOfDocs;
 
     return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1)
       .then(response=>{
@@ -48,6 +51,8 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
         docArr: this.properties.docArr,
       }
     );
+    
+    this._pushDocs.bind(this);
     this._pushDocs();
     ReactDom.render(element, this.domElement);
   }
