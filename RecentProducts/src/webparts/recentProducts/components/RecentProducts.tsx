@@ -10,9 +10,7 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
   constructor(props: IRecentProductsProps){
     super(props);
   } 
-
   
-
   public render(): React.ReactElement<IRecentProductsProps> {
     const docs: any[] = [];
     this.props.docArr.forEach((doc: IDocument) => {
@@ -29,10 +27,8 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
     });
     return (
       <div className={ styles.recentProducts }>
-        <div className={ styles.container }>
-          <ul>
-            {docs}
-          </ul>
+        <div className={styles.row}>
+          {docs}
         </div>
       </div>
     );

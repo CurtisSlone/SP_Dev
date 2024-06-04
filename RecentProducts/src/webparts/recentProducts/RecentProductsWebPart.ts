@@ -38,7 +38,7 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
   private _pushDocs(): void {
     
     this._getDocs(this.properties.numberOfDocs)
-      .then(docs=>{this.properties.docArr = docs});
+      .then(docs=>{this.properties.docArr = docs;});
   }
 
   public render(): void {

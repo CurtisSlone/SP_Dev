@@ -1,6 +1,9 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 
 .recentProducts {
+  .imgfit {
+    max-width: 100%;
+  }
   .container {
     max-width: 700px;
     margin: 0px auto;
@@ -10,16 +13,17 @@
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
-    background-color: $ms-color-themeDark;
-    padding: 20px;
+    background-color: $ms-color-white;
+    padding: 10px;
   }
 
   .column {
     @include ms-Grid-col;
-    @include ms-lg10;
-    @include ms-xl8;
+    @include ms-lg4;
+    @include ms-xl4;
     @include ms-xlPush2;
     @include ms-lgPush1;
+    padding-bottom: 5px;
   }
 
   .title {
