@@ -36,7 +36,6 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
     
     this.props.docArr.forEach((doc: IDocument) => {
       const docUrl: string = this.props.docLibUrl + doc.FileLeafRef;
-      
       docs.push(
         <div className={styles.column} onClick={ this._showPanel(true,docUrl) }>
           <DocumentComponent
