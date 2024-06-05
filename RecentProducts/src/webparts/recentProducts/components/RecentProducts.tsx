@@ -48,7 +48,9 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
               type={ PanelType.medium }
               headerText='Document'
             >
-              <iframe height='500' src='https://google.com' > </iframe>
+              <object width='100%' height='500'>
+                <embed width='100%' height='500' type="application/pdf" src="https://sharepoint.acxx.srel.mil/Shared%20Documents/dumm1.pdf"></embed>
+              </object>
             </Panel>
           </div>
         </div>

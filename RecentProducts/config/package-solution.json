@@ -3,7 +3,7 @@
   "solution": {
     "name": "recent-products-client-side-solution",
     "id": "3da870b7-478d-4987-b279-ef0fec0e6847",
-    "version": "1.1.1.0",
+    "version": "1.1.2.4",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },
@@ -11,3 +11,4 @@
     "zippedPackage": "solution/recent-products.sppkg"
   }
 }
+
