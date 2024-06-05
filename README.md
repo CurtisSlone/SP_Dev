@@ -29,6 +29,6 @@ Choose SPO,
 # Allow pdf mime type
 ```
 $wepApp = Get-SPWebApplication("https://site")
-$webApp.allowedInlineDownloadedMimeTypes.Add("application/pdf)
+$webApp.AllowedInlineDownloadedMimeTypes.Add("application/pdf")
 $webApp.Update()
 ```
