@@ -17,6 +17,7 @@ export interface IRecentProductsWebPartProps {
   numberOfDocs: string;
   docArr: IDocument[];
   docLib: string;
+  docList: string;
 }
  
 export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecentProductsWebPartProps> {
@@ -25,7 +26,7 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
     let numOfDocs: string = "1";
     if( docCount != null)
       numOfDocs = docCount;
-    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate,FileLeafRef&$orderby=publishDate desc&$top=" + numOfDocs;
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.properties.docList + "')/items?$select=Title,Id,classification,description,imgUrl,publishDate,FileLeafRef&$orderby=publishDate desc&$top=" + numOfDocs;
 
     return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1)
       .then(response=>{
@@ -76,6 +77,9 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
               groupFields: [
                 PropertyPaneTextField('numberOfDocs', {
                   label: "Number of Recent Products"
+                }),
+                PropertyPaneTextField('docList', {
+                  label: "Name of List To Query"
                 }),
                 PropertyPaneTextField('docLib', {
                   label: "Document Library"

@@ -43,7 +43,7 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
             documentId={doc.Id}
             documentName={doc.Title}
             documentClassification={doc.classification}
-            documentDescription={doc.FileLeafRef}
+            documentDescription={doc.description0}
             documentImgURL={doc.imgUrl}
           ></DocumentComponent>
       </div>
