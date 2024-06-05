@@ -32,3 +32,6 @@ $wepApp = Get-SPWebApplication("https://site")
 $webApp.AllowedInlineDownloadedMimeTypes.Add("application/pdf")
 $webApp.Update()
 ```
+
+or use  [Central Admin Panel](https://learn.microsoft.com/en-us/sharepoint/administration/manage-the-app-catalog)
+
