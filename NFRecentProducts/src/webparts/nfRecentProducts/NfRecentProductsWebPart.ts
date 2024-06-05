@@ -21,7 +21,7 @@ export default class NfRecentProductsWebPart extends BaseClientSideWebPart<INfRe
 
   private _getDocs(docCount: string): Promise<IDocument[]>{
 
-    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate&$orderby=publishDate desc&$top=" + docCount;
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description0,imgUrl,publishDate&$orderby=publishDate desc&$top=" + docCount;
 
     return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1)
       .then(response=>{
