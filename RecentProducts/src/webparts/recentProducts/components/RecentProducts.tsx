@@ -21,7 +21,6 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
         documentClassification={doc.classification}
         documentDescription={doc.description0}
         documentImgURL={doc.imgUrl}
-        documentUrl='#'
       ></DocumentComponent>
       );
     });

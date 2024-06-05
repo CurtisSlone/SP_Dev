@@ -4,5 +4,4 @@ export interface IDocumentProps {
     documentName: string;
     documentDescription: string;
     documentClassification: string;
-    documentUrl: string;
 }
