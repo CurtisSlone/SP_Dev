@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "helpful-links-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/helpfulLinks/HelpfulLinksWebPart.js",
+          "manifest": "./src/webparts/helpfulLinks/HelpfulLinksWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "HelpfulLinksWebPartStrings": "lib/webparts/helpfulLinks/loc/{locale}.js"
+  }
+}
