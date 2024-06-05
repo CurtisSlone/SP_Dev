@@ -4,4 +4,5 @@ export interface IDocument {
     Title: string;
     description0: string;
     classification: string;
+    FileLeafRef: string;
 }
