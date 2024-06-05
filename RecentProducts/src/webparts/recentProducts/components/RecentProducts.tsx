@@ -48,7 +48,9 @@ export default class RecentProducts extends React.Component<IRecentProductsProps
               type={ PanelType.medium }
               headerText='Document'
             >
-              <iframe height='500' src='https://google.com' > </iframe>
+              <object>
+    <embed type="application/pdf" src="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf" ></embed>
+</object>
             </Panel>
           </div>
         </div>
