@@ -25,3 +25,10 @@ Choose SPO,
 # deploy assets to https://:domain:/_layouts/15
 # add site collection admin
 # Use Copy-Item to deploy src files to sharepoint virtual directory
+
+# Allow pdf mime type
+```
+$wepApp = Get-SPWebApplication("https://site")
+$webApp.allowedInlineDownloadedMimeTypes.Add("application/pdf)
+$webApp.Update()
+```
