@@ -26,7 +26,7 @@ Choose SPO,
 # add site collection admin
 # Use Copy-Item to deploy src files to sharepoint virtual directory
 
-# Allow pdf mime type
+# Allow pdf mime type (No STIG Finding)
 ```
 $wepApp = Get-SPWebApplication("https://site")
 $webApp.AllowedInlineDownloadedMimeTypes.Add("application/pdf")
