@@ -24,7 +24,7 @@ export default class RecentProductsWebPart extends BaseClientSideWebPart<IRecent
     let numOfDocs: string = "1";
     if( docCount != null)
       numOfDocs = docCount;
-    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description0,imgUrl,PublishDate&$orderby=PublishDate desc&$top=" + numOfDocs;
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=Title,Id,classification,description,imgUrl,publishDate&$orderby=publishDate desc&$top=" + numOfDocs;
 
     return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1)
       .then(response=>{

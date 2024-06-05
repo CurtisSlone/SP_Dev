@@ -33,5 +33,5 @@ $webApp.AllowedInlineDownloadedMimeTypes.Add("application/pdf")
 $webApp.Update()
 ```
 
-or use  [Central Admin Panel](https://learn.microsoft.com/en-us/sharepoint/administration/manage-the-app-catalog)
+or use  [Central Admin Panel](https://www.c-sharpcorner.com/article/enable-pdf-files-in-sharepoint-to-open-up-in-the-browser/)
 
