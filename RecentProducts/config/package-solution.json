@@ -1,9 +1,9 @@
 {
   "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "recent-products-client-side-solution",
+    "name": "Recent Products Viewer",
     "id": "3da870b7-478d-4987-b279-ef0fec0e6847",
-    "version": "1.2.0.1",
+    "version": "1.2.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },

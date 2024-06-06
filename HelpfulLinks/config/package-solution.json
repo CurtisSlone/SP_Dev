@@ -3,7 +3,7 @@
   "solution": {
     "name": "helpful-links-client-side-solution",
     "id": "fe87eea4-3278-4b88-8eec-741ce218f1d5",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },
