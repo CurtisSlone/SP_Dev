@@ -19,11 +19,11 @@ export default class DocumentComponent extends React.Component<IDocumentProps,{}
                     <img className={styles.imgfit} src={this.props.documentImgURL} />
                     <DocumentCardTitle
                         title={this.props.documentName}
-                        shouldTruncate={ true}
+                        shouldTruncate={ false }
                     />
                     <DocumentCardTitle
                         title={this.props.documentDescription}
-                        shouldTruncate={ true}
+                        shouldTruncate={ true }
                     />
                 </DocumentCard>
         );
