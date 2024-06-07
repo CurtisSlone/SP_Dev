@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "directory-listing-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/directoryListing/DirectoryListingWebPart.js",
+          "manifest": "./src/webparts/directoryListing/DirectoryListingWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DirectoryListingWebPartStrings": "lib/webparts/directoryListing/loc/{locale}.js"
+  }
+}
