@@ -3,7 +3,7 @@
   "solution": {
     "name": "directory-listing-client-side-solution",
     "id": "8572e947-55fa-4eba-8485-841e0af80c21",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },

@@ -40,6 +40,7 @@ export default class DirectoryListing extends React.Component<IDirectoryListingP
   
   
   public render(): React.ReactElement<IDirectoryListingProps> {
+    
     const items: {
       SiteName: string,
       SiteNumber: string,

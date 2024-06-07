@@ -47,6 +47,7 @@ export default class DirectoryListingWebPart extends BaseClientSideWebPart<IDire
 
     this._pushDirItems = this._pushDirItems.bind(this);
     this._pushDirItems();
+    
     ReactDom.render(element, this.domElement);
   }
 
