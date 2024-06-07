@@ -3,8 +3,7 @@
 .helpfulLinks {
   .container {
     max-width: 700px;
-    margin: 0px auto;
-    
+    margin: 0px;
   }
 
   .row {
@@ -22,12 +21,15 @@
   }
 
   .largeTitle {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    color: white;
     text-align: center;
+    padding-top: 70px;
   }
 
   .docCard {
     background-color: $ms-color-themeDark;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    height: 200px;
   }
 }

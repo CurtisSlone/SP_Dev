@@ -1,4 +1,3 @@
-import { ILinkBox } from "../ILinkBox";
 
 export interface IHelpfulLinksProps {
   description: string;
