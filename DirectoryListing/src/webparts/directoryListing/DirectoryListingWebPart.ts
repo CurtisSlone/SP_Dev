@@ -6,8 +6,6 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-
-import * as strings from 'DirectoryListingWebPartStrings';
 import DirectoryListing from './components/DirectoryListing';
 import { IDirectoryListingProps } from './components/IDirectoryListingProps';
 
