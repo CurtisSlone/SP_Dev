@@ -8,7 +8,6 @@ import {
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'HelpfulLinksWebPartStrings';
 import HelpfulLinks from './components/HelpfulLinks';
 import { IHelpfulLinksProps } from './components/IHelpfulLinksProps';
 
@@ -52,7 +51,7 @@ export default class HelpfulLinksWebPart extends BaseClientSideWebPart<IHelpfulL
     
     let dynamicGroup: any[] = [
       {
-        groupName: strings.BasicGroupName,
+        groupName: "",
         groupFields: [
           PropertyPaneTextField('numberOfLinks', {
             label: 'Number Of Helpful Links'
@@ -85,7 +84,7 @@ export default class HelpfulLinksWebPart extends BaseClientSideWebPart<IHelpfulL
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: "Helpful Links"
           },
           groups: dynamicGroup
         }

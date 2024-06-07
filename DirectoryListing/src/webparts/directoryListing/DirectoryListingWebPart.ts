@@ -37,14 +37,14 @@ export default class DirectoryListingWebPart extends BaseClientSideWebPart<IDire
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: "Directory List Name"
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              groupName: "",
               groupFields: [
                 PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                  label: ""
                 })
               ]
             }
