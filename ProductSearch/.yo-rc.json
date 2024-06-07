@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "product-search",
+    "libraryId": "80674eb4-ee4d-4238-b295-e461c5b86ca4",
+    "environment": "spo"
+  }
+}

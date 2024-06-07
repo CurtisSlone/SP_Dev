@@ -15,7 +15,7 @@ const _columns = [
     name: 'Site Number',
     fieldName: 'SiteNumber',
     minWidth: 50,
-    maxWidth: 200,
+    maxWidth: 100,
     isResizable: true
   },
   {
@@ -31,7 +31,7 @@ const _columns = [
     name: 'Site Phone',
     fieldName: 'SitePhone',
     minWidth: 50,
-    maxWidth: 200,
+    maxWidth: 150,
     isResizable: true
   }
 ];

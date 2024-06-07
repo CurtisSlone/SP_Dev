@@ -33,8 +33,8 @@ export default class HelpfulLinksWebPart extends BaseClientSideWebPart<IHelpfulL
       {
         description: this.properties.description,
         linkCount: this._checkLinkCount(this.properties.numberOfLinks),
-        linkNames: this.properties.linkNameArr,
-        linkUrls: this.properties.linkUrlArr,
+        linkNames: this.properties.linkNameArr == null ? [] : this.properties.linkNameArr,
+        linkUrls: this.properties.linkUrlArr == null ? [] : this.properties.linkUrlArr,
       }
     );
     

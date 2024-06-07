@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "product-search-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/productSearch/ProductSearchWebPart.js",
+          "manifest": "./src/webparts/productSearch/ProductSearchWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ProductSearchWebPartStrings": "lib/webparts/productSearch/loc/{locale}.js"
+  }
+}
