@@ -4,7 +4,6 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneFieldType,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
 
