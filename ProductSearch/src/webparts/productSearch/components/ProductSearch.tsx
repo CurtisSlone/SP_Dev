@@ -18,7 +18,7 @@ import { ITermSet } from '../interfaces/ITermSet';
 import { ITerm } from '../interfaces/ITerm';
 import { IFindTermSetResult } from '../interfaces/IFindTermSetResult';
 
-
+ 
 export default class ProductSearch extends React.Component<IProductSearchProps, any> {
   constructor(){
     super();

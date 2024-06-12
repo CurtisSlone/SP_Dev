@@ -5,4 +5,6 @@ export interface ICannedProductSearchProps {
   termCount: number;
   termLabels: string[];
   terms: string[];
+  queryList: string;
+  docLib: string;
 }

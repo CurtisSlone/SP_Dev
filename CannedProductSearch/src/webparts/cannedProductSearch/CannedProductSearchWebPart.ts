@@ -15,6 +15,8 @@ export interface ICannedProductSearchWebPartProps {
   numberOfTerms: number;
   termBoxLabels: string[];
   termBoxTerms: string[];
+  listToQuery: string;
+  documentLibrary: string;
 }
 
 export default class CannedProductSearchWebPart extends BaseClientSideWebPart<ICannedProductSearchWebPartProps> {
@@ -34,6 +36,8 @@ export default class CannedProductSearchWebPart extends BaseClientSideWebPart<IC
         termCount: this._checkTermCount(this.properties.numberOfTerms),
         termLabels: this.properties.termBoxLabels == null ? [] : this.properties.termBoxLabels,
         terms: this.properties.termBoxTerms == null ? [] : this.properties.termBoxTerms,
+        queryList: this.properties.listToQuery == null ? 'Intelligence' : this.properties.listToQuery,
+        docLib: this.properties.documentLibrary == null ? 'Shared Documents' : this.properties.documentLibrary
       }
     );
 
@@ -47,6 +51,22 @@ export default class CannedProductSearchWebPart extends BaseClientSideWebPart<IC
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     let termCount = this._checkTermCount(this.properties.numberOfTerms);
     let dynamicGroup: any[] = [
+      {
+        groupName: "",
+        groupFields: [
+          PropertyPaneTextField('listToQuery', {
+            label: 'List To Make Queries On'
+          })
+        ]
+      },
+      {
+        groupName: "",
+        groupFields: [
+          PropertyPaneTextField('documentLibrary', {
+            label: 'Document Library Where The Products Are Stored'
+          })
+        ]
+      },
       {
         groupName: "",
         groupFields: [
