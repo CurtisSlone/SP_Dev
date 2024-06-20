@@ -6,12 +6,10 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
- 
-import * as strings from 'CannedProductSearchWebPartStrings';
-import CannedProductSearch from './components/CannedProductSearch.1';
-import { ICannedProductSearchProps } from './components/ICannedProductSearchProps';
+import ProductSearchCards from './components/ProductSearchCards';
+import { IProductSearchCardsProps } from './components/IProductSearchCardsProps';
 
-export interface ICannedProductSearchWebPartProps {
+export interface IProductSearchCardsWebPartProps {
   numberOfTerms: number;
   termBoxLabels: string[];
   termBoxTerms: string[];
@@ -19,7 +17,7 @@ export interface ICannedProductSearchWebPartProps {
   documentLibrary: string;
 }
 
-export default class CannedProductSearchWebPart extends BaseClientSideWebPart<ICannedProductSearchWebPartProps> {
+export default class ProductSearchCardsWebPart extends BaseClientSideWebPart<IProductSearchCardsWebPartProps> {
 
   private _checkTermCount(termCount: number): number {
     let count: number = 1;
@@ -29,8 +27,8 @@ export default class CannedProductSearchWebPart extends BaseClientSideWebPart<IC
   }
 
   public render(): void {
-    const element: React.ReactElement<ICannedProductSearchProps > = React.createElement(
-      CannedProductSearch,
+    const element: React.ReactElement<IProductSearchCardsProps > = React.createElement(
+      ProductSearchCards,
       {
         context: this.context,
         termCount: this._checkTermCount(this.properties.numberOfTerms),

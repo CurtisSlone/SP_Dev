@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "product-search-cards",
+    "libraryId": "bc016a03-9232-4737-acda-fd41b47c0d88",
+    "environment": "spo"
+  }
+}

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styles from './CannedProductSearch.module.scss';
-import { ICannedProductSearchProps } from './ICannedProductSearchProps';
-import { IProduct } from '../interfaces/IProduct';
-import { SPHttpClient } from '@microsoft/sp-http';
+import styles from './ProductSearchCards.module.scss';
+import { IProductSearchCardsProps } from './IProductSearchCardsProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { IProduct } from './IProduct';
+import { SPHttpClient } from '@microsoft/sp-http';
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -13,6 +13,7 @@ import {
 import { DocumentCard,
   DocumentCardType,
 } from 'office-ui-fabric-react/lib/DocumentCard';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 
 const _columns = [
   {
@@ -21,7 +22,7 @@ const _columns = [
     fieldName: 'Title',
     minWidth: 50,
     maxWidth: 100,
-    isResizable: true
+    isResizable: true,
   },
   {
     key: 'categoriesCol',
@@ -50,37 +51,45 @@ const _columns = [
 
 ];
 
-export default class CannedProductSearch extends React.Component<ICannedProductSearchProps, {
+export default class ProductSearchCards extends React.Component<IProductSearchCardsProps, {
   products: {
     Title: string,
     Intel_x0020_Categories?: any,
     Involved_x0020_Nations?: any,
-    publishDate?: string
+    publishDate?: string,
+    FileLeafRef: string,
+    ServerRedirectedEmbedUrl: string
   }[];
+  showPanel: boolean;
+  embedUrl: string;
 }> {
-  
-  constructor(props: ICannedProductSearchProps){
+
+  constructor(props: IProductSearchCardsProps){
     super(props);
     this._getProducts = this._getProducts.bind(this);
     this._pushProducts = this._pushProducts.bind(this);
+    this._onItemInvoked = this._onItemInvoked.bind(this);
     this.state = {
       products: [
         {
           Title: "",
           Intel_x0020_Categories: "",
           Involved_x0020_Nations: "",
-          publishDate: ""
+          publishDate: "",
+          FileLeafRef: "",
+          ServerRedirectedEmbedUrl: ""
         }
-      ]
+      ],
+      showPanel: false,
+      embedUrl: ""
+
     };
 
-
+    
   }
 
-  
-
-  public render(): React.ReactElement<ICannedProductSearchProps> {
-
+  public render(): React.ReactElement<IProductSearchCardsProps> {
+    
     const termBoxes: any[] =[];
     for(let i: number = 0; i < this.props.termCount; i++)
       termBoxes.push(
@@ -94,9 +103,8 @@ export default class CannedProductSearch extends React.Component<ICannedProductS
 
         </div>
       );
-    
     return (
-      <div className={ styles.cannedProductSearch }>
+      <div className={ styles.productSearchCards }>
         <div className={ styles.container }>
           <div className={ styles.row }>
             {termBoxes}
@@ -107,24 +115,44 @@ export default class CannedProductSearch extends React.Component<ICannedProductS
               columns={_columns}
               setKey='set'
               selectionMode={ SelectionMode.none }
-              // selection={ this._selection }
-              // onActiveItemChanged={}
               layoutMode={DetailsListLayoutMode.fixedColumns }
               compact={true}
+              onItemInvoked={this._onItemInvoked}
               />
           </div>
-          <div className={styles.row}>
-            
+          <div>
+            <Panel
+              isOpen={ this.state.showPanel }
+              onDismiss={ this._setShowPanel(false) }
+              type={ PanelType.medium }
+              headerText='Document'
+            >
+              <object width='100%' height='500'>
+                <embed width='100%' height='500' type="application/pdf" src={this.state.embedUrl}></embed>
+              </object>
+            </Panel>
           </div>
         </div>
       </div>
-    ); 
+    );
+  }
+
+  private _onItemInvoked(item: any): void {
+    this.setState(() => ({
+      showPanel : true,
+      embedUrl : `${item.ServerRedirectedEmbedUrl}`
+  }));
   }
 
 
+  private _setShowPanel = (showPanel: boolean): () => void => {
+    return (): void => {
+      this.setState({showPanel});
+    };
+  }
 
   private _getProducts(term: string): Promise<IProduct[]> {
-    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=FileLeafRef,Title,publishDate,Intel_x0020_Categories,Involved_x0020_Nations,publishDate&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
+    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=FileLeafRef,Title,publishDate,Intel_x0020_Categories,Involved_x0020_Nations,publishDate,ServerRedirectedEmbedUrl&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
 
     return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res=>{
@@ -146,7 +174,8 @@ export default class CannedProductSearch extends React.Component<ICannedProductS
               Intel_x0020_Categories: items[0].Intel_x0020_Categories.map(o => o.Label).join(', '),
               Involved_x0020_Nations: item.Involved_x0020_Nations.map(o => o.Label).join(', '),
               publishDate: item.publishDate,
-              FileLeafRef: item.FileLeafRef
+              FileLeafRef: item.FileLeafRef,
+              ServerRedirectedEmbedUrl: item.ServerRedirectedEmbedUrl
             });
 
           });
@@ -156,6 +185,5 @@ export default class CannedProductSearch extends React.Component<ICannedProductS
           }));
         });
     };
-    
   }
 }
