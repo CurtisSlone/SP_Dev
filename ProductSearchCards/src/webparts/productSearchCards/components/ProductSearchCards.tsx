@@ -138,9 +138,10 @@ export default class ProductSearchCards extends React.Component<IProductSearchCa
   }
 
   private _onItemInvoked(item: any): void {
+    alert(`${this.props.context.pageContext.site.absoluteUrl}/${this.props.docLib}/${item.FileLeafRef}`);
     this.setState(() => ({
       showPanel : true,
-      embedUrl : `${this.props.context.pageContext.site.absoluteUrl}/${item.FileLeafRef}`
+      embedUrl : `${this.props.context.pageContext.site.absoluteUrl}/${this.props.docLib}/${item.FileLeafRef}`
   }));
   }
 
@@ -152,7 +153,7 @@ export default class ProductSearchCards extends React.Component<IProductSearchCa
   }
 
   private _getProducts(term: string): Promise<IProduct[]> {
-    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('Intelligence')/items?$select=FileLeafRef,Title,PublishDate,Intel_x0020_Categories,Involved_x0020_Nations,PublishDate,ServerRedirectedEmbedUrl&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
+    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,publishDate,Intel_x0020_Categories,Involved_x0020_Nations,publishDate,ServerRedirectedEmbedUrl&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
 
     return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res=>{
