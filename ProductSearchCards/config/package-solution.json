@@ -3,7 +3,7 @@
   "solution": {
     "name": "product-search-cards-client-side-solution",
     "id": "bc016a03-9232-4737-acda-fd41b47c0d88",
-    "version": "1.0.0.2",
+    "version": "1.1.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },

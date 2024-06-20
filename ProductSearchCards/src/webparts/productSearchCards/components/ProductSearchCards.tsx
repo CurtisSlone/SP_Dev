@@ -138,7 +138,6 @@ export default class ProductSearchCards extends React.Component<IProductSearchCa
   }
 
   private _onItemInvoked(item: any): void {
-    alert(`${this.props.context.pageContext.site.absoluteUrl}/${this.props.docLib}/${item.FileLeafRef}`);
     this.setState(() => ({
       showPanel : true,
       embedUrl : `${this.props.context.pageContext.site.absoluteUrl}/${this.props.docLib}/${item.FileLeafRef}`
@@ -153,7 +152,7 @@ export default class ProductSearchCards extends React.Component<IProductSearchCa
   }
 
   private _getProducts(term: string): Promise<IProduct[]> {
-    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,publishDate,Intel_x0020_Categories,Involved_x0020_Nations,publishDate,ServerRedirectedEmbedUrl&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
+    const url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,Intel_x0020_Categories,Involved_x0020_Nations,PublishDate&$filter=TaxCatchAll/Term eq '" + term + "'&orderby=Created%20desc";
 
     return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res=>{
@@ -174,7 +173,7 @@ export default class ProductSearchCards extends React.Component<IProductSearchCa
               Title: item.Title,
               Intel_x0020_Categories: items[0].Intel_x0020_Categories.map(o => o.Label).join(', '),
               Involved_x0020_Nations: item.Involved_x0020_Nations.map(o => o.Label).join(', '),
-              publishDate: item.publishDate,
+              PublishDate: item.PublishDate,
               FileLeafRef: item.FileLeafRef,
               ServerRedirectedEmbedUrl: item.ServerRedirectedEmbedUrl
             });
