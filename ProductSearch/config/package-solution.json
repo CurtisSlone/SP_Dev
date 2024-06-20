@@ -3,7 +3,7 @@
   "solution": {
     "name": "product-search-client-side-solution",
     "id": "80674eb4-ee4d-4238-b295-e461c5b86ca4",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true
   },
