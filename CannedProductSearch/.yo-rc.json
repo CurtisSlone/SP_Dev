@@ -1,8 +1,0 @@
-{
-  "@microsoft/generator-sharepoint": {
-    "version": "1.4.1",
-    "libraryName": "canned-product-search",
-    "libraryId": "9cddb073-9af0-4750-98f0-4bfb8e88fb60",
-    "environment": "spo"
-  }
-}
