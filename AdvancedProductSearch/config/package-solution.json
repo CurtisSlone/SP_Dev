@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "advanced-product-search-client-side-solution",
+    "id": "ae79378a-20d3-4f21-aef1-fc52637834c2",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/advanced-product-search.sppkg"
+  }
+}

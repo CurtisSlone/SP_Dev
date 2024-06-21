@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "advanced-product-searching-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/advancedProductSearching/AdvancedProductSearchingWebPart.js",
+          "manifest": "./src/webparts/advancedProductSearching/AdvancedProductSearchingWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "AdvancedProductSearchingWebPartStrings": "lib/webparts/advancedProductSearching/loc/{locale}.js"
+  }
+}
