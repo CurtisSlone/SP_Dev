@@ -102,6 +102,17 @@ export interface ITermSetInformation {
   It: boolean; //isTermSet
 }
 
+export interface IGetTermsInTermSetRequest {
+  termSetId: string; // guid of term set
+  lcid: number;
+}
+
+export interface IGetTermsInTermSetResult {
+  Error: string;
+  Lm: number;
+  Content: any[]; // Structure of returned terms
+}
+
 
 export default class ProductSearch extends React.Component<IProductSearchProps, any> {
   constructor(){
@@ -142,10 +153,8 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
           </div>
           <div className="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white">
             <div className="ms-Grid-col ms-u-sm12">
-              <DefaultButton text="Find Termset (requires search)" onClick={this.findTermSets} />&nbsp;
-              <DefaultButton text="Get Suggestions" onClick={this.getSuggestions} />&nbsp;
-              <DefaultButton text="Get Child Terms In Term Set With Paging" onClick={this.getChildTermsInTermSetWithPaging} />&nbsp;
-              <DefaultButton text="Get Child Terms In Term With Paging" onClick={this.getChildTermsInTermWithPaging} />&nbsp;
+            <DefaultButton text="Get Intel Categories Terms" onClick={this.getTermsInIntelCategories} />&nbsp;
+            <DefaultButton text="Get Involved Nations Terms" onClick={this.getTermsInInvolvedNations} />&nbsp;
             </div>
           </div>
           <div className="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white">
@@ -408,5 +417,105 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
       }
     });
   }
+
+  private getTermsInTermGroup(termGroupId: string) {
+    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetTermsInTermSet';
+    const query: IGetTermsInTermSetRequest = {
+      termSetId: termGroupId,
+      lcid: 1033
+    };
+  
+    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
+      body: JSON.stringify(query)
+    }).then((response: HttpClientResponse) => {
+      if (response.ok) {
+        response.json().then((result: any) => {
+          let returnResults: ITerm[] = [];
+          if (result.d.Content) {
+            result.d.Content.forEach((term: any) => {
+              returnResults.push({
+                Id: term.Id,
+                Label: term.Name,
+                Paths: term.Paths
+              });
+            });
+          }
+  
+          this.setState({
+            results: returnResults
+          });
+        });
+      } else {
+        console.warn(response.statusText);
+      }
+    });
+  }
+  
+  private getTermsInIntelCategories() {
+    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermSetWithPaging';
+    const query: IGetTermsInTermSetRequest = {
+      termSetId: this.props.intelCategoriesGuid,
+      lcid: 1033
+    };
+  
+    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
+      body: JSON.stringify(query)
+    }).then((response: HttpClientResponse) => {
+      if (response.ok) {
+        response.json().then((result: any) => {
+          let returnResults: ITerm[] = [];
+          if (result.d.Content) {
+            result.d.Content.forEach((term: any) => {
+              returnResults.push({
+                Id: term.Id,
+                Label: term.Name,
+                Paths: term.Paths
+              });
+            });
+          }
+  
+          this.setState({
+            results: returnResults
+          });
+        });
+      } else {
+        console.warn(response.statusText);
+      }
+    });
+  }
+  
+  private getTermsInInvolvedNations() {
+    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermSetWithPaging';
+    const query: IGetTermsInTermSetRequest = {
+      termSetId: this.props.involvedNationsGuid,
+      lcid: 1033
+    };
+  
+    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
+      body: JSON.stringify(query)
+    }).then((response: HttpClientResponse) => {
+      if (response.ok) {
+        response.json().then((result: any) => {
+          let returnResults: ITerm[] = [];
+          if (result.d.Content) {
+            result.d.Content.forEach((term: any) => {
+              returnResults.push({
+                Id: term.Id,
+                Label: term.Name,
+                Paths: term.Paths
+              });
+            });
+          }
+  
+          this.setState({
+            results: returnResults
+          });
+        });
+      } else {
+        console.warn(response.statusText);
+      }
+    });
+  }
+  
 
 }

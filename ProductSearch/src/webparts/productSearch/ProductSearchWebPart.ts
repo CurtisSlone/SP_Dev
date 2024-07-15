@@ -1,18 +1,20 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
 
 import * as strings from 'ProductSearchWebPartStrings';
-import ProductSearch from './components/ProductSearch';
 import { IProductSearchProps } from './components/IProductSearchProps';
+import ProductSearch from './components/ProductSearch';
 
 export interface IProductSearchWebPartProps {
   description: string;
+  intelCategoriesGuid: string;
+  involvedNationsGuid: string;
 }
 
 export default class ProductSearchWebPart extends BaseClientSideWebPart<IProductSearchWebPartProps> {
@@ -22,6 +24,8 @@ export default class ProductSearchWebPart extends BaseClientSideWebPart<IProduct
       ProductSearch,
       {
         context: this.context,
+        intelCategoriesGuid: this.properties.intelCategoriesGuid,
+        involvedNationsGuid: this.properties.involvedNationsGuid
       }
     );
 
@@ -45,6 +49,12 @@ export default class ProductSearchWebPart extends BaseClientSideWebPart<IProduct
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneTextField('intelCategoriesGuid', {
+                  label: 'Intel Categories Term Set GUID'
+                }),
+                PropertyPaneTextField('involvedNationsGuid', {
+                  label: 'Involved Nations Term Set GUID'
                 })
               ]
             }
