@@ -1,10 +1,7 @@
 import { HttpClientResponse, SPHttpClient } from '@microsoft/sp-http';
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import * as React from 'react';
 import { IProductSearchProps } from './IProductSearchProps';
 import styles from './ProductSearch.module.scss';
-
 
 export interface IFindTermSetRequest {
   searchTerms: string;
@@ -30,42 +27,12 @@ export interface IGetChildTermsInTermSetWithPagingRequest {
   listId: string;
 }
 
-export interface IGetChildTermsInTermWithPagingRequest {
-  sspId: string; // guid of term store
-  lcid: number;
-  guid: string; // guid of term
-  termsetId: string; // guid of term set
-  includeDeprecated: boolean;
-  pageLimit: number;
-  pagingForward: boolean;
-  includeCurrentChild: boolean;
-  currentChildId: string;
-  webId: string;
-  listId: string;
-}
-
 export interface IGetGroupsRequest {
   sspId: string; // guid of term store
   webId: string;
   listId: string;
   includeSystemGroup: boolean;
   lcid: number;
-}
-
-export interface IGetSuggestionsRequest {
-  start: string; // query
-  lcid: number;
-  sspList: string; // guid of term store
-  termSetList: string; // guid of term set
-  anchorId: string;
-  isSpanTermStores: boolean; // search in all termstores
-  isSpanTermSets: boolean;
-  isIncludeUnavailable: boolean;
-  isIncludeDeprecated: boolean;
-  isAddTerms: boolean;
-  isIncludePathData: boolean;
-  excludeKeyword: boolean;
-  excludedTermset: string;
 }
 
 export interface IGetTermSetsRequest {
@@ -97,35 +64,27 @@ export interface ITermSet {
 
 export interface ITermSetInformation {
   Id: string;
-  Nm: string; //name
-  Ow: string; //owner
-  It: boolean; //isTermSet
-}
-
-export interface IGetTermsInTermSetRequest {
-  termSetId: string; // guid of term set
-  lcid: number;
-}
-
-export interface IGetTermsInTermSetResult {
-  Error: string;
-  Lm: number;
-  Content: any[]; // Structure of returned terms
+  Nm: string; // Name
+  Ow: string; // Owner
+  It: boolean; // IsTermSet
 }
 
 
 export default class ProductSearch extends React.Component<IProductSearchProps, any> {
-  constructor(){
-    super();
+  constructor(props: IProductSearchProps) {
+    super(props);
+    this.state = {
+      query: "",
+      results: [],
+      sspId: ""
+    };
+
     this.updateQuery = this.updateQuery.bind(this);
     this.findTermSets = this.findTermSets.bind(this);
-    this.getSuggestions = this.getSuggestions.bind(this);
-    this.getChildTermsInTermSetWithPaging = this.getChildTermsInTermSetWithPaging.bind(this);
-    this.getChildTermsInTermWithPaging = this.getChildTermsInTermWithPaging.bind(this);
-    this.pickSsps = this.pickSsps.bind(this);
     this.getGroups = this.getGroups.bind(this);
     this.getTermSets = this.getTermSets.bind(this);
-    this.state = {};
+    this.getChildTermsInTermSetWithPaging = this.getChildTermsInTermSetWithPaging.bind(this);
+    this.pickSsps = this.pickSsps.bind(this);
   }
 
   public componentDidMount(): void {
@@ -134,7 +93,6 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
   }
 
   public render(): React.ReactElement<IProductSearchProps> {
-
     let renderResult = "";
     if (this.state.results) {
       renderResult = JSON.stringify(this.state.results, null, 2);
@@ -143,21 +101,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     return (
       <div className={styles.productSearch}>
         <div className={`ms-Grid ${styles.container}`}>
-          <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
-            <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-              <SearchBox
-                onChange={(newValue) => this.updateQuery(newValue)}
-                onSearch={(newValue) => this.updateQuery(newValue)}
-              />
-            </div>
-          </div>
-          <div className="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white">
-            <div className="ms-Grid-col ms-u-sm12">
-            <DefaultButton text="Get Intel Categories Terms" onClick={this.getTermsInIntelCategories} />&nbsp;
-            <DefaultButton text="Get Involved Nations Terms" onClick={this.getTermsInInvolvedNations} />&nbsp;
-            </div>
-          </div>
-          <div className="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white">
+          <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <pre>
                 {renderResult}
@@ -190,67 +134,14 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
           let termSetResult: IFindTermSetResult = result.d;
           let returnResults: ITermSet[] = [];
           if (termSetResult.Content) {
-            for (var i = 0; i < termSetResult.Content.length; i++) {
-              var termInfo = termSetResult.Content[i];
-              if (termInfo.It) {
-                returnResults.push({
-                  Id: termInfo.Id,
-                  Name: termInfo.Nm,
-                  Owner: termInfo.Ow
-                });
-              }
-            }
+            returnResults = termSetResult.Content
+              .filter((termInfo: any) => termInfo.It)
+              .map((termInfo: any) => ({
+                Id: termInfo.Id,
+                Name: termInfo.Nm,
+                Owner: termInfo.Ow
+              }));
           }
-          this.setState({
-            results: returnResults
-          });
-        });
-      } else {
-        console.warn(response.statusText);
-      }
-    });
-  }
-
-  /**
-   * Method to query for terms in a termset
-   */
-  private getSuggestions() {
-    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetSuggestions';
-    const query: IGetSuggestionsRequest = {
-      start: this.state.query,
-      lcid: 1033,
-      sspList: this.state.sspId, //id of termstore
-      termSetList: "bcb8e186-25af-47f6-be91-bd5eda552410", //id of termset
-      anchorId: "00000000-0000-0000-0000-000000000000",
-      isSpanTermStores: false,
-      isSpanTermSets: false,
-      isIncludeUnavailable: false,
-      isIncludeDeprecated: false,
-      isAddTerms: false,
-      isIncludePathData: false,
-      excludeKeyword: false,
-      excludedTermset: "00000000-0000-0000-0000-000000000000"
-    };
-
-    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
-      body: JSON.stringify(query)
-    }).then((response: HttpClientResponse) => {
-      if (response.ok) {
-        response.json().then((result: any) => {
-          let returnResults: ITerm[] = [];
-          let groups: any[] = result.d.Groups;
-          for (var i = 0; i < groups.length; i++) {
-            var suggestions: any[] = groups[i].Suggestions;
-            for (var j = 0; j < suggestions.length; j++) {
-              var term: any = suggestions[j];
-              returnResults.push({
-                Id: term.Id,
-                Label: term.DefaultLabel,
-                Paths: term.Paths
-              });
-            }
-          }
-
           this.setState({
             results: returnResults
           });
@@ -264,18 +155,18 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
   /**
    * Method to list all level one terms in a term set
    */
-  private getChildTermsInTermSetWithPaging() {
+  private getChildTermsInTermSetWithPaging(termSetId: string) {
     const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermSetWithPaging';
     const query: IGetChildTermsInTermSetWithPagingRequest = {
+      sspId: this.state.sspId,
       lcid: 1033,
-      sspId: this.state.sspId, //id of termstore
-      guid: "bcb8e186-25af-47f6-be91-bd5eda552410", //id of termset
+      guid: termSetId,
       includeDeprecated: false,
       pageLimit: 1000,
-      pagingForward: false,
-      includeCurrentChild: false,
+      pagingForward: true,
+      includeCurrentChild: true,
       currentChildId: "00000000-0000-0000-0000-000000000000",
-      webId: "00000000-0000-0000-0000-000000000000",
+      webId: this.props.context.pageContext.web.id.toString(),
       listId: "00000000-0000-0000-0000-000000000000"
     };
 
@@ -285,9 +176,15 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
       if (response.ok) {
         response.json().then((result: any) => {
           let returnResults: ITerm[] = [];
+          if (result.d.Content) {
+            returnResults = result.d.Content.map((term: any) => ({
+              Id: term.Id,
+              Label: term.Label,
+              Paths: term.Paths
+            }));
+          }
           this.setState({
-            //results: returnResults
-            results: result.d
+            results: returnResults
           });
         });
       } else {
@@ -297,22 +194,17 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
   }
 
   /**
-   * Method to list all child terms of a term
+   * Method to list all term sets in a term group and match term set names for 'Intel Categories' and 'Involved Nations'
    */
-  private getChildTermsInTermWithPaging() {
-    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermWithPaging';
-    const query: IGetChildTermsInTermWithPagingRequest = {
-      lcid: 1033,
-      sspId: this.state.sspId, //id of termstore
-      guid: "17219077-0abf-4eec-803d-eab938dc2a57", //id of term
-      termsetId: "bcb8e186-25af-47f6-be91-bd5eda552410", //id of termset
-      includeDeprecated: false,
-      pageLimit: 1000,
-      pagingForward: false,
-      includeCurrentChild: true,
-      currentChildId: "00000000-0000-0000-0000-000000000000",
-      webId: "00000000-0000-0000-0000-000000000000",
-      listId: "00000000-0000-0000-0000-000000000000"
+  private getTermSets(termGroupId: string) {
+    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetTermSets';
+    const query: IGetTermSetsRequest = {
+      sspId: this.state.sspId,
+      guid: termGroupId,
+      webId: this.props.context.pageContext.web.id.toString(),
+      listId: "00000000-0000-0000-0000-000000000000",
+      includeNoneTaggableTermset: true,
+      lcid: 1033
     };
 
     this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
@@ -320,11 +212,20 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     }).then((response: HttpClientResponse) => {
       if (response.ok) {
         response.json().then((result: any) => {
-          let returnResults: ITerm[] = [];
-          this.setState({
-            //results: returnResults
-            results: result.d
+          const termSets: ITermSetInformation[] = result.d.Content;
+          let termSetIdToFetch: string | undefined;
+
+          // Find the term set ids for 'Intel Categories' and 'Involved Nations'
+          termSets.forEach((termSet) => {
+            if (termSet.Nm === 'Intel Categories' || termSet.Nm === 'Involved Nations') {
+              termSetIdToFetch = termSet.Id;
+            }
           });
+
+          // If found, fetch child terms in the identified term set
+          if (termSetIdToFetch) {
+            this.getChildTermsInTermSetWithPaging(termSetIdToFetch);
+          }
         });
       } else {
         console.warn(response.statusText);
@@ -381,6 +282,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
           this.setState({
             results: result.d
           });
+          // Assuming we want to fetch term sets after fetching groups
           this.getTermSets(result.d.Content[0].Id);
         });
       } else {
@@ -390,16 +292,17 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
   }
 
   /**
-   * Method to list all term sets in a term group
+   * Method to get child terms in a specific term set by name
+   * @param termSetName Name of the term set to fetch terms from
    */
-  private getTermSets(termGroupId: string) {
+  private getTermsInTermSet(termSetName: string) {
     const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetTermSets';
     const query: IGetTermSetsRequest = {
       sspId: this.state.sspId,
-      guid: termGroupId,
+      guid: "00000000-0000-0000-0000-000000000000", // Replace with the correct term group id if needed
+      includeNoneTaggableTermset: true,
       webId: this.props.context.pageContext.web.id.toString(),
       listId: "00000000-0000-0000-0000-000000000000",
-      includeNoneTaggableTermset: true,
       lcid: 1033
     };
 
@@ -408,114 +311,25 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     }).then((response: HttpClientResponse) => {
       if (response.ok) {
         response.json().then((result: any) => {
-          this.setState({
-            results: result.d
-          });
-        });
-      } else {
-        console.warn(response.statusText);
-      }
-    });
-  }
+          const termSets: ITermSetInformation[] = result.d.Content;
+        let termSet: ITermSetInformation | undefined;
 
-  private getTermsInTermGroup(termGroupId: string) {
-    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetTermsInTermSet';
-    const query: IGetTermsInTermSetRequest = {
-      termSetId: termGroupId,
-      lcid: 1033
-    };
-  
-    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
-      body: JSON.stringify(query)
-    }).then((response: HttpClientResponse) => {
-      if (response.ok) {
-        response.json().then((result: any) => {
-          let returnResults: ITerm[] = [];
-          if (result.d.Content) {
-            result.d.Content.forEach((term: any) => {
-              returnResults.push({
-                Id: term.Id,
-                Label: term.Name,
-                Paths: term.Paths
-              });
-            });
+        for (let i = 0; i < termSets.length; i++) {
+          if (termSets[i].Nm === termSetName) {
+            termSet = termSets[i];
+            break;
           }
-  
-          this.setState({
-            results: returnResults
-          });
-        });
-      } else {
-        console.warn(response.statusText);
-      }
-    });
-  }
-  
-  private getTermsInIntelCategories() {
-    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermSetWithPaging';
-    const query: IGetTermsInTermSetRequest = {
-      termSetId: this.props.intelCategoriesGuid,
-      lcid: 1033
-    };
-  
-    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
-      body: JSON.stringify(query)
-    }).then((response: HttpClientResponse) => {
-      if (response.ok) {
-        response.json().then((result: any) => {
-          let returnResults: ITerm[] = [];
-          if (result.d.Content) {
-            result.d.Content.forEach((term: any) => {
-              returnResults.push({
-                Id: term.Id,
-                Label: term.Name,
-                Paths: term.Paths
-              });
-            });
-          }
-  
-          this.setState({
-            results: returnResults
-          });
-        });
-      } else {
-        console.warn(response.statusText);
-      }
-    });
-  }
-  
-  private getTermsInInvolvedNations() {
-    const url = this.props.context.pageContext.web.serverRelativeUrl + '/_vti_bin/TaxonomyInternalService.json/GetChildTermsInTermSetWithPaging';
-    const query: IGetTermsInTermSetRequest = {
-      termSetId: this.props.involvedNationsGuid,
-      lcid: 1033
-    };
-  
-    this.props.context.spHttpClient.post(url, SPHttpClient.configurations.v1, {
-      body: JSON.stringify(query)
-    }).then((response: HttpClientResponse) => {
-      if (response.ok) {
-        response.json().then((result: any) => {
-          let returnResults: ITerm[] = [];
-          if (result.d.Content) {
-            result.d.Content.forEach((term: any) => {
-              returnResults.push({
-                Id: term.Id,
-                Label: term.Name,
-                Paths: term.Paths
-              });
-            });
-          }
-  
-          this.setState({
-            results: returnResults
-          });
-        });
-      } else {
-        console.warn(response.statusText);
-      }
-    });
-  }
-  
+        }
 
+          if (termSet) {
+            this.getChildTermsInTermSetWithPaging(termSet.Id);
+          } else {
+            console.warn(`Term set '${termSetName}' not found.`);
+          }
+        });
+      } else {
+        console.warn(response.statusText);
+      }
+    });
+  }
 }
