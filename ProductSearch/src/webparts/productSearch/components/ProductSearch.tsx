@@ -1,24 +1,108 @@
-import * as React from 'react';
-import styles from './ProductSearch.module.scss';
-import { IProductSearchProps } from './IProductSearchProps';
-import { SPHttpClient, HttpClientResponse } from '@microsoft/sp-http';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { HttpClientResponse, SPHttpClient } from '@microsoft/sp-http';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import {DefaultButton} from 'office-ui-fabric-react/lib/Button';
+import * as React from 'react';
+import { IProductSearchProps } from './IProductSearchProps';
+import styles from './ProductSearch.module.scss';
 
-import { IGetSuggestionsRequest } from '../interfaces/IGetSuggestionsRequest';
-import { IFindTermSetRequest } from '../interfaces/IFindTermSetRequest';
-import { IGetChildTermsInTermSetWithPagingRequest } from '../interfaces/IGetChildTermsInTermSetWithPagingRequest';
-import { IGetChildTermsInTermWithPagingRequest } from '../interfaces/IGetChildTermsInTermWithPagingRequest';
-import { IPickSspsRequest } from '../interfaces/IPickSspsRequest';
-import { IGetGroupsRequest } from '../interfaces/IGetGroupsRequest';
-import { IGetTermSetsRequest } from '../interfaces/IGetTermSetsRequest';
-import { ITermSetInformation } from '../interfaces/ITermSetInformation';
-import { ITermSet } from '../interfaces/ITermSet';
-import { ITerm } from '../interfaces/ITerm';
-import { IFindTermSetResult } from '../interfaces/IFindTermSetResult';
 
- 
+export interface IFindTermSetRequest {
+  searchTerms: string;
+  lcid: number;
+}
+
+export interface IFindTermSetResult {
+  Error: string;
+  Lm: number;
+  Content: any[];
+}
+
+export interface IGetChildTermsInTermSetWithPagingRequest {
+  sspId: string; // guid of term store
+  lcid: number;
+  guid: string; // guid of term set
+  includeDeprecated: boolean;
+  pageLimit: number;
+  pagingForward: boolean;
+  includeCurrentChild: boolean;
+  currentChildId: string;
+  webId: string;
+  listId: string;
+}
+
+export interface IGetChildTermsInTermWithPagingRequest {
+  sspId: string; // guid of term store
+  lcid: number;
+  guid: string; // guid of term
+  termsetId: string; // guid of term set
+  includeDeprecated: boolean;
+  pageLimit: number;
+  pagingForward: boolean;
+  includeCurrentChild: boolean;
+  currentChildId: string;
+  webId: string;
+  listId: string;
+}
+
+export interface IGetGroupsRequest {
+  sspId: string; // guid of term store
+  webId: string;
+  listId: string;
+  includeSystemGroup: boolean;
+  lcid: number;
+}
+
+export interface IGetSuggestionsRequest {
+  start: string; // query
+  lcid: number;
+  sspList: string; // guid of term store
+  termSetList: string; // guid of term set
+  anchorId: string;
+  isSpanTermStores: boolean; // search in all termstores
+  isSpanTermSets: boolean;
+  isIncludeUnavailable: boolean;
+  isIncludeDeprecated: boolean;
+  isAddTerms: boolean;
+  isIncludePathData: boolean;
+  excludeKeyword: boolean;
+  excludedTermset: string;
+}
+
+export interface IGetTermSetsRequest {
+  sspId: string; // guid of term store
+  guid: string; // guid of term group
+  includeNoneTaggableTermset: boolean;
+  webId: string;
+  listId: string;
+  lcid: number;
+}
+
+export interface IPickSspsRequest {
+  webId: string;
+  listId: string;
+  lcid: number;
+}
+
+export interface ITerm {
+  Id: string;
+  Label: string;
+  Paths: string[];
+}
+
+export interface ITermSet {
+  Id: string;
+  Name: string;
+  Owner: string;
+}
+
+export interface ITermSetInformation {
+  Id: string;
+  Nm: string; //name
+  Ow: string; //owner
+  It: boolean; //isTermSet
+}
+
+
 export default class ProductSearch extends React.Component<IProductSearchProps, any> {
   constructor(){
     super();
