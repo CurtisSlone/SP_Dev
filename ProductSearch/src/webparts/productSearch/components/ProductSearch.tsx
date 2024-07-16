@@ -80,6 +80,7 @@ export interface ITermSetInformation {
 }
 
 export const CheckboxList = ({ items, checkboxState, onChange }) => {
+
   return (
       <div className={styles.row}>
         {items.map((item) => (
@@ -88,7 +89,7 @@ export const CheckboxList = ({ items, checkboxState, onChange }) => {
               <input type="checkbox"
                 id={item.Id}
                 name={item.Label}
-                checked={checkboxState[item.Id] || false}
+                checked={checkboxState[item.Label] || false}
                 onChange={onChange} />
               <label htmlFor={item.Id}>{item.Label}</label>
             </div>
@@ -170,6 +171,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     this.getInvolvedNationTerms = this.getInvolvedNationTerms.bind(this);
     this.pickSsps = this.pickSsps.bind(this);
     this._pushProducts = this._pushProducts.bind(this);
+    this._handleCheckboxChange = this._handleCheckboxChange.bind(this);
   }
 
   private _showIntelCategories(active: boolean){
@@ -190,12 +192,12 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
   }
 
   private _handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { id, checked } = event.target;
-    alert("checked");
+    const { name, checked } = event.target;
+    
     this.setState(prevState => ({
       checkboxState: {
         ...prevState.checkboxState,
-        [id]: checked,
+        [name]: checked,
       },
     }));
   }
@@ -207,36 +209,31 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
 
 
   private _customSearch(): Promise<IProduct[]>{
-    let url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,Intel_x0020_Categories,Involved_x0020_Nations,PublishDate&$filter=";
+    let url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,Intel_x0020_Categories,Involved_x0020_Nations,publishDate&$filter=";
 
     const terms: string[] = [];
-    alert("Custom Search");
     for (const termId in this.state.checkboxState) {
       if (this.state.checkboxState[termId]) {
-        terms.push(`(TaxCatchAll/Term  '${termId}')`);
+        terms.push(`(TaxCatchAll/Term eq '${termId}')`);
       }
     }
 
     if (terms.length > 0) {
       url += terms.join(' and ');
     }
-    this.setState(() => ({
-      checkboxState: {}
-    }));
-
+    alert(url);
+  
     return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res=>{
         return res.json();
       })
       .then(json=>{
-        alert(JSON.stringify(json));
         return json.value;
       }) as Promise<IProduct[]>;
   }
 
   private _pushProducts(){
     return (): void =>{
-      alert("push products");
       this._customSearch()
         .then(items=>{
           let results: IProduct[] = [];
@@ -245,7 +242,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
               Title: item.Title,
               Intel_x0020_Categories: items[0].Intel_x0020_Categories.map(o => o.Label).join(', '),
               Involved_x0020_Nations: item.Involved_x0020_Nations.map(o => o.Label).join(', '),
-              PublishDate: item.PublishDate,
+              publishDate: item.publishDate,
               FileLeafRef: item.FileLeafRef,
               ServerRedirectedEmbedUrl: item.ServerRedirectedEmbedUrl
             });
