@@ -3,25 +3,52 @@
 .productSearch {
   .container {
     max-width: 700px;
-    margin: 0px auto;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    padding: 0; /* Remove padding */
+
+    
+  }
+  .visible{
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s ease; /* Add transition for opacity */
+    -webkit-transition: opacity 0.3s ease; /* Chrome, Safari, Opera */
+    -moz-transition: opacity 0.3s ease; /* Firefox */
+    -o-transition: opacity 0.3s ease; /* Older Opera */
   }
 
+  .hidden{
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Add transition for opacity */
+    -webkit-transition: opacity 0.3s ease; /* Chrome, Safari, Opera */
+    -moz-transition: opacity 0.3s ease; /* Firefox */
+    -o-transition: opacity 0.3s ease; /* Older Opera */
+  }
   .row {
     @include ms-Grid-row;
-    @include ms-fontColor-white;
-    background-color: $ms-color-themeDark;
-    padding: 20px;
+    background-color: $ms-color-white;
+    padding: 10px;
+    margin: 0; /* Remove margin */
   }
-
+  
   .column {
     @include ms-Grid-col;
-    @include ms-lg10;
-    @include ms-xl8;
-    @include ms-xlPush2;
-    @include ms-lgPush1;
+    @include ms-lg4;
+    @include ms-xl4;
+    padding-bottom: 5px;
+    margin: 0; /* Remove margin */
   }
-
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-item input {
+    margin-right: 10px;
+  }
+  
   .title {
     @include ms-font-xl;
     @include ms-fontColor-white;
@@ -38,17 +65,12 @@
   }
 
   .button {
-    // Our button
     text-decoration: none;
     height: 32px;
-
-    // Primary Button
     min-width: 80px;
     background-color: $ms-color-themePrimary;
     border-color: $ms-color-themePrimary;
     color: $ms-color-white;
-
-    // Basic Button
     outline: transparent;
     position: relative;
     font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;

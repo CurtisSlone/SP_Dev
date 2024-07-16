@@ -13,6 +13,8 @@ import ProductSearch from './components/ProductSearch';
 
 export interface IProductSearchWebPartProps {
   description: string;
+  listToQuery: string;
+  documentLibrary: string;
 }
 
 export default class ProductSearchWebPart extends BaseClientSideWebPart<IProductSearchWebPartProps> {
@@ -21,7 +23,9 @@ export default class ProductSearchWebPart extends BaseClientSideWebPart<IProduct
     const element: React.ReactElement<IProductSearchProps > = React.createElement(
       ProductSearch,
       {
-        context: this.context
+        context: this.context,
+        queryList: this.properties.listToQuery == null ? 'Intelligence' : this.properties.listToQuery,
+        docLib: this.properties.documentLibrary == null ? 'Shared Documents' : this.properties.documentLibrary
       }
     );
 
@@ -45,6 +49,22 @@ export default class ProductSearchWebPart extends BaseClientSideWebPart<IProduct
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                })
+              ]
+            },
+            {
+              groupName: "",
+              groupFields: [
+                PropertyPaneTextField('listToQuery', {
+                  label: 'List To Make Queries On'
+                })
+              ]
+            },
+            {
+              groupName: "",
+              groupFields: [
+                PropertyPaneTextField('documentLibrary', {
+                  label: 'Document Library Where The Products Are Stored'
                 })
               ]
             }

@@ -1,7 +1,17 @@
 import { HttpClientResponse, SPHttpClient } from '@microsoft/sp-http';
+import {
+  DetailsList,
+  DetailsListLayoutMode,
+  SelectionMode
+} from 'office-ui-fabric-react/lib/DetailsList';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+
 import * as React from 'react';
+import { IProduct } from './IProduct';
 import { IProductSearchProps } from './IProductSearchProps';
 import styles from './ProductSearch.module.scss';
+
+
 
 export interface IFindTermSetRequest {
   searchTerms: string;
@@ -69,6 +79,61 @@ export interface ITermSetInformation {
   It: boolean; // IsTermSet
 }
 
+export const CheckboxList = ({ items, checkboxState, onChange }) => {
+  return (
+      <div className={styles.row}>
+        {items.map((item) => (
+          <div key={item.Id} className={styles.column}>
+            <div className={styles['checkbox-item']}>
+              <input type="checkbox"
+                id={item.Id}
+                name={item.Label}
+                checked={checkboxState[item.Id] || false}
+                onChange={onChange} />
+              <label htmlFor={item.Id}>{item.Label}</label>
+            </div>
+          </div>
+        ))}
+      </div>
+  );
+};
+
+
+const _columns = [
+  {
+    key: 'titleCol',
+    name: 'Title',
+    fieldName: 'Title',
+    minWidth: 50,
+    maxWidth: 100,
+    isResizable: true,
+  },
+  {
+    key: 'categoriesCol',
+    name: 'Intel Categories',
+    fieldName: 'Intel_x0020_Categories',
+    minWidth: 50,
+    maxWidth: 100,
+    isResizable: true
+  },
+  {
+    key: 'nationsCol',
+    name: 'Involved Nations',
+    fieldName: 'Involved_x0020_Nations',
+    minWidth: 50,
+    maxWidth: 100,
+    isResizable: true
+  },
+  {
+    key: 'pubDateCol',
+    name: 'Publish Date',
+    fieldName: 'publishDate',
+    minWidth: 50,
+    maxWidth: 100,
+    isResizable: true
+  },
+
+];
 
 export default class ProductSearch extends React.Component<IProductSearchProps, any> {
   constructor(props: IProductSearchProps) {
@@ -78,8 +143,24 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
       results: [],
       sspId: "",
       intelCategoriesTerms: [],
-      involvedNationsTerms: []
+      involvedNationsTerms: [],
+      showCategories: false,
+      showNations: false,
+      checkboxState: {},
+      products: [
+        {
+          Title: "",
+          Intel_x0020_Categories: "",
+          Involved_x0020_Nations: "",
+          publishDate: "",
+          FileLeafRef: "",
+          ServerRedirectedEmbedUrl: ""
+        }
+      ],
+      showPanel: false,
+      embedUrl: ""
     };
+
 
     this.updateQuery = this.updateQuery.bind(this);
     this.findTermSets = this.findTermSets.bind(this);
@@ -88,6 +169,35 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     this.getIntelCategoryTerms = this.getIntelCategoryTerms.bind(this);
     this.getInvolvedNationTerms = this.getInvolvedNationTerms.bind(this);
     this.pickSsps = this.pickSsps.bind(this);
+    this._pushProducts = this._pushProducts.bind(this);
+  }
+
+  private _showIntelCategories(active: boolean){
+    return (): void => {
+      
+      this.setState(()=>({
+        showCategories: active
+      }));
+    };
+  }
+
+  private _showInvolvedNations(active: boolean){
+    return (): void => {
+      this.setState(()=>({
+        showNations: active
+      }));
+    };
+  }
+
+  private _handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { id, checked } = event.target;
+    alert("checked");
+    this.setState(prevState => ({
+      checkboxState: {
+        ...prevState.checkboxState,
+        [id]: checked,
+      },
+    }));
   }
 
   public componentDidMount(): void {
@@ -95,24 +205,123 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     this.pickSsps();
   }
 
+
+  private _customSearch(): Promise<IProduct[]>{
+    let url: string = this.props.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('" + this.props.queryList +"')/items?$select=FileLeafRef,Title,Intel_x0020_Categories,Involved_x0020_Nations,PublishDate&$filter=";
+
+    const terms: string[] = [];
+    alert("Custom Search");
+    for (const termId in this.state.checkboxState) {
+      if (this.state.checkboxState[termId]) {
+        terms.push(`(TaxCatchAll/Term  '${termId}')`);
+      }
+    }
+
+    if (terms.length > 0) {
+      url += terms.join(' and ');
+    }
+    this.setState(() => ({
+      checkboxState: {}
+    }));
+
+    return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+      .then(res=>{
+        return res.json();
+      })
+      .then(json=>{
+        alert(JSON.stringify(json));
+        return json.value;
+      }) as Promise<IProduct[]>;
+  }
+
+  private _pushProducts(){
+    return (): void =>{
+      alert("push products");
+      this._customSearch()
+        .then(items=>{
+          let results: IProduct[] = [];
+          items.forEach((item: IProduct)=>{
+            results.push({
+              Title: item.Title,
+              Intel_x0020_Categories: items[0].Intel_x0020_Categories.map(o => o.Label).join(', '),
+              Involved_x0020_Nations: item.Involved_x0020_Nations.map(o => o.Label).join(', '),
+              PublishDate: item.PublishDate,
+              FileLeafRef: item.FileLeafRef,
+              ServerRedirectedEmbedUrl: item.ServerRedirectedEmbedUrl
+            });
+          });
+          this.setState(()=>({
+            products: results
+        }));
+        });
+    }
+  }
+
+  private _onItemInvoked(item: any): void {
+    this.setState(() => ({
+      showPanel : true,
+      embedUrl : `${this.props.context.pageContext.site.absoluteUrl}/${this.props.docLib}/${item.FileLeafRef}`
+  }));
+  }
+
+  private _setShowPanel = (showPanel: boolean): () => void => {
+    return (): void => {
+      this.setState({showPanel});
+    };
+  }
+
+
   public render(): React.ReactElement<IProductSearchProps> {
     let renderResult = "";
     if (this.state.results) {
       renderResult = JSON.stringify(this.state.results, null, 2);
     }
-
+    
     return (
       <div className={styles.productSearch}>
         <div className={`ms-Grid ${styles.container}`}>
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-              <pre>
-                {JSON.stringify(this.state.intelCategoriesTerms, null, 2)}
-              </pre>
-              <pre>
-                {JSON.stringify(this.state.involvedNationsTerms, null, 2)}
-              </pre>
-            </div>
+          <div className={styles.row}>
+                <h2>Intel Categories</h2>
+                <button onClick={this._showIntelCategories(!this.state.showCategories)}> Show Categories </button>
+                <div className={`${this.state.showCategories ? styles.visible : styles.hidden }`}>
+                  <CheckboxList items={this.state.intelCategoriesTerms}
+                  checkboxState={this.state.checkboxState}
+                  onChange={this._handleCheckboxChange} />
+                </div>
+                <h2>Involved Nations</h2>
+                <button onClick={this._showInvolvedNations(!this.state.showNations)}> Show Categories </button>
+                <div className={`${this.state.showNations ? styles.visible : styles.hidden }`}>
+                  <CheckboxList items={this.state.involvedNationsTerms}
+                  checkboxState={this.state.checkboxState}
+                  onChange={this._handleCheckboxChange} />
+                </div>
+            
+          </div>
+          <div className={styles.row}>
+          <button onClick={this._pushProducts()}>Search</button>
+          </div>
+          <div className={styles.row}>
+            <DetailsList
+              items={this.state.products}
+              columns={_columns}
+              setKey='set'
+              selectionMode={ SelectionMode.none }
+              layoutMode={DetailsListLayoutMode.fixedColumns }
+              compact={true}
+              onItemInvoked={this._onItemInvoked}
+              />
+          </div>
+          <div>
+            <Panel
+              isOpen={ this.state.showPanel }
+              onDismiss={ this._setShowPanel(false) }
+              type={ PanelType.medium }
+              headerText='Document'
+            >
+              <object width='100%' height='500'>
+                <embed width='100%' height='500' type="application/pdf" src={this.state.embedUrl}></embed>
+              </object>
+            </Panel>
           </div>
         </div>
       </div>
@@ -124,6 +333,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
       query: query
     });
   }
+
 
   /**
    * Method to find term sets having the search value, or having a term with the value
