@@ -172,6 +172,7 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     this.pickSsps = this.pickSsps.bind(this);
     this._pushProducts = this._pushProducts.bind(this);
     this._handleCheckboxChange = this._handleCheckboxChange.bind(this);
+    this._onItemInvoked = this._onItemInvoked.bind(this);
   }
 
   private _showIntelCategories(active: boolean){
@@ -221,7 +222,6 @@ export default class ProductSearch extends React.Component<IProductSearchProps, 
     if (terms.length > 0) {
       url += terms.join(' and ');
     }
-    alert(url);
   
     return this.props.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res=>{
