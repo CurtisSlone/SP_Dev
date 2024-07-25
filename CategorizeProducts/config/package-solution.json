@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "categorize-products-client-side-solution",
+    "id": "e3cba04c-c16a-4e96-bf1b-b0e3bc7daa81",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/categorize-products.sppkg"
+  }
+}

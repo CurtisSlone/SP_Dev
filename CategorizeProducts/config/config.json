@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "categorize-products-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/categorizeProducts/CategorizeProductsWebPart.js",
+          "manifest": "./src/webparts/categorizeProducts/CategorizeProductsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CategorizeProductsWebPartStrings": "lib/webparts/categorizeProducts/loc/{locale}.js"
+  }
+}
